@@ -1,4 +1,4 @@
-<atoms xmlns="https://www.w3schools.com"
+<atomos xmlns="https://www.w3schools.com"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://www.w3schools.com tabla_periodica.xsd">
     <atom state="gas">
@@ -13,9 +13,11 @@
             <discoverer-first-surname>Sanchez</discoverer-first-surname>
             <discoverer-second-surname>Parera</discoverer-second-surname>
         </discoverer>
-        <boiling-point units="kelvin">543</boiling-point>
+        <punto-de-ebullicion units="kelvin">543</punto-de-ebullicion>
         <density units="kg" />
-        <origin />
+        <origin>
+            <extraterrestrial></extraterrestrial>
+        </origin>
     </atom>
 
     <atom state="liquid">
@@ -31,6 +33,11 @@
             <discoverer-second-surname>Hernandez</discoverer-second-surname>
         </discoverer>
         <boiling-point units="centigrade">567</boiling-point>
-        <origin />
+        <origin>
+            <terrestrial>
+                <first-time-see continent="south-america" />
+                <last-time-see continent="africa" />
+            </terrestrial>
+        </origin>
     </atom>
-</atoms>
+</atomos>

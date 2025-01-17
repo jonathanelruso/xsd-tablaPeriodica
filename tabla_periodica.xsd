@@ -4,26 +4,29 @@
     elementFormDefault="qualified">
 
     <!-- Átomos -->
-    <xs:element name="atoms ">
+    <xs:element name="atoms">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="atom" maxOccurs="unbounded" type="atomType" />
+                <xs:element ref="atom" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="atomos" substitutionGroup="atoms" />
+    <xs:element name="atom" />
+    <xs:element name="atomo" substitutionGroup="atom" type="atomType" />
+
+
     <!-- Átomo -->
-    <xs:complexType
-        name="atomType">
+    <xs:complexType name="atomType">
         <xs:sequence>
-            <xs:element name="name" type="nameType" />
-            <xs:element name="symbol" type="symbolType" />
-            <xs:element name="characteristics" type="characteristicsType" />
-            <xs:element name="discoverer" type="discovererType" />
-            <xs:element name="boiling-point" type="boilingType" />
-            <xs:element name="density" type="densityType" minOccurs="0" />
-            <xs:element name="origin" type="originType" />
-            <xs:group ref="gyat"/>
+            <xs:element ref="name" />
+            <xs:element ref="symbol" />
+            <xs:element ref="characteristics" />
+            <xs:element ref="discoverer" />
+            <xs:element ref="boiling-point" />
+            <xs:element ref="density" minOccurs="0" />
+            <xs:group ref="originType" />
         </xs:sequence>
         <xs:attribute name="state">
             <xs:simpleType>
@@ -36,41 +39,65 @@
         </xs:attribute>
     </xs:complexType>
 
+    <xs:element name="name" type="nameType" />
+    <xs:element name="nombre" substitutionGroup="name" />
+    <xs:element name="symbol" type="symbolType" />
+    <xs:element name="simbolo" substitutionGroup="symbol" />
+    <xs:element name="characteristics" type="characteristicsType" />
+    <xs:element name="caracteristicas" substitutionGroup="characteristics" />
+    <xs:element name="discoverer" type="discovererType" />
+    <xs:element name="descubridor" substitutionGroup="discoverer" />
+    <xs:element name="boiling-point" type="boilingType" />
+    <xs:element name="punto-de-ebullicion" substitutionGroup="boiling-point" />
+    <xs:element name="density" type="densityType" />
+    <xs:element name="densidad" substitutionGroup="density" />
+
+
     <!-- Restriccón de nombre: primer caracter en máyuscula y el resto en minúscula -->
-    <xs:simpleType
-        name="nameType">
+    <xs:simpleType name="nameType">
         <xs:restriction base="xs:string">
             <xs:pattern value="[A-Z][a-zñç]{0,10}"></xs:pattern>
         </xs:restriction>
     </xs:simpleType>
 
     <!-- Restriccion de símbolo: tres caracteres como máximo y todos mayúsculas -->
-    <xs:simpleType
-        name="symbolType">
+    <xs:simpleType name="symbolType">
         <xs:restriction base="xs:string">
-            <xs:pattern value="[A-Z]{0,3}"></xs:pattern>
+            <xs:pattern value="[A-Z]{0,3}" />
         </xs:restriction>
     </xs:simpleType>
 
     <!-- Caracteristicas del átomo -->
-    <xs:complexType
-        name="characteristicsType">
+    <xs:complexType name="characteristicsType">
         <xs:choice>
             <xs:sequence>
-                <xs:element name="atomic-weight" />
-                <xs:element name="atomic-number " />
+                <xs:element ref="atomic-weight" />
+                <xs:element ref="atomic-number" />
             </xs:sequence>
         </xs:choice>
     </xs:complexType>
 
+    <xs:element name="atomic-weight" />
+    <xs:element name="peso-atomico" substitutionGroup="atomic-weight" />
+    <xs:element name="atomic-number" />
+    <xs:element name="numero-atomico" substitutionGroup="atomic-number" />
+
     <!-- Descubridor -->
     <xs:complexType name="discovererType">
         <xs:sequence>
-            <xs:element name="discoverer-name" type="discovererUpperType" />
-            <xs:element name="discoverer-first-surname" type="discovererUpperType" />
-            <xs:element name="discoverer-second-surname" type="discovererUpperType" />
+            <xs:element ref="discoverer-name" />
+            <xs:element ref="discoverer-first-surname" />
+            <xs:element ref="discoverer-second-surname" />
         </xs:sequence>
     </xs:complexType>
+
+    <xs:element name="discoverer-name" type="discovererUpperType" />
+    <xs:element name="nombre-del-descubridor" substitutionGroup="discoverer-name" />
+    <xs:element name="discoverer-first-surname" type="discovererUpperType" />
+    <xs:element name="primer-apellido-del-descubridor" substitutionGroup="discoverer-first-surname" />
+    <xs:element name="discoverer-second-surname" type="discovererUpperType" />
+    <xs:element name="segundo-apellido-del-descubridor"
+        substitutionGroup="discoverer-second-surname"></xs:element>
 
     <!-- Restricción del descubridor: nombres y apellidos la primera letra en mayúscula -->
     <xs:simpleType name="discovererUpperType">
@@ -85,8 +112,8 @@
                 <xs:attribute name="units" default="centigrade">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
-                            <xs:enumeration value="centigrade"></xs:enumeration>
-                            <xs:enumeration value="kelvin"></xs:enumeration>
+                            <xs:enumeration value="centigrade" />
+                            <xs:enumeration value="kelvin" />
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
@@ -95,42 +122,51 @@
     </xs:complexType>
 
     <xs:complexType name="densityType">
-        <xs:attribute name="units"></xs:attribute>
+        <xs:attribute name="units" />
     </xs:complexType>
-    
-    <xs:group ref="gyat" name="originType">
-        <xs:choice>
-            <xs:element name="terrestrial" type="terrestrialType" />
-            <xs:element name="extraterrestrial" type="extraterrestrialType" />
-        </xs:choice>
+
+    <xs:group name="originType">
+        <xs:sequence>
+            <xs:element name="origin">
+                <xs:complexType>
+                    <xs:choice>
+                        <xs:element name="terrestrial" type="terrestrialType" />
+                        <xs:element name="extraterrestrial" type="extraterrestrialType" />
+                    </xs:choice>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
     </xs:group>
 
     <xs:complexType name="terrestrialType">
         <xs:sequence>
-            <xs:element name="first-time-see" type="seeType"/>
+            <xs:element name="first-time-see" type="seeType" />
+            <xs:element name="last-time-see" type="seeType" />
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="extraterrestrialType">
-        <xs:sequence>
-            <xs:element name="last-time-see" type="seeType"></xs:element>
-        </xs:sequence>
-    </xs:complexType>
+    <xs:simpleType name="extraterrestrialType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value=""></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
 
     <xs:complexType name="seeType">
         <xs:attribute name="continent">
             <xs:simpleType>
                 <xs:restriction base="xs:string">
-                    <xs:enumeration value="africa"></xs:enumeration>
-                    <xs:enumeration value="europe"></xs:enumeration>
-                    <xs:enumeration value="north-america"></xs:enumeration>
-                    <xs:enumeration value="south-america"></xs:enumeration>
-                    <xs:enumeration value="asia"></xs:enumeration>
-                    <xs:enumeration value="oceania"></xs:enumeration>
+                    <xs:enumeration value="africa" />
+                    <xs:enumeration value="europe" />
+                    <xs:enumeration value="north-america" />
+                    <xs:enumeration value="south-america" />
+                    <xs:enumeration value="asia" />
+                    <xs:enumeration value="oceania" />
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
     </xs:complexType>
 
-    
+    <!-- Substitution group -->
+
 </xs:schema>
